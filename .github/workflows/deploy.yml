@@ -34,3 +34,22 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION || 'us-east-1' }}
           SOURCE_DIR: dist
+
+      - name: Ensure correct MIME types (optional safety net)
+        run: |
+          echo "Fixing MIME types for JS and CSS files…"
+          for file in $(find dist -type f -name '*.js'); do
+            aws s3 cp "$file" "s3://your-bucket-name/${file#dist/}" \
+              --content-type application/javascript \
+              --acl public-read
+          done
+
+          for file in $(find dist -type f -name '*.css'); do
+            aws s3 cp "$file" "s3://your-bucket-name/${file#dist/}" \
+              --content-type text/css \
+              --acl public-read
+          done
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION || 'eu-west-1' }}
