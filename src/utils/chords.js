@@ -37,7 +37,7 @@ function splitChord(chord) {
 
 export default function getChords(chords) {
     const formattedChords = chordFormat(chords);
-    
+
     const chordObjects = [];
     let i = 0;
 
