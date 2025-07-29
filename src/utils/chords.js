@@ -1,4 +1,4 @@
-import chorddb from '../data/chords.json';
+import chorddb from '../data/chordsDatabase.json';
 
 const keys = {
     'A': 'A',

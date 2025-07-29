@@ -1,4 +1,4 @@
-export default class Chord {
+export default class ChordOption {
     constructor(mode, advanced) {
         this.mode = mode;
         this.advanced = advanced;
@@ -48,10 +48,5 @@ export default class Chord {
         } else {
             return numeral;
         }
-    }
-
-    buildChord(scale, degree, type) {
-        const note = scale[degree];
-        return `${note}${type}`;    
     }
 }
