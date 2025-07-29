@@ -11,13 +11,12 @@ function buildChord(scale, degree, type) {
     return `${note}${type}`;    
 }
 
-function getProgressionDegrees() {
+function getProgressionDegrees(totalChords) {
     const progressionDegrees = [];
     const usedDegrees = new Set();
 
     const degrees = [0, 1, 2, 3, 4, 5, 6];
-
-    while (progressionDegrees.length < 4) {
+    while (progressionDegrees.length < totalChords) {
         let next;
         do {
             next = getRandomElement(degrees);
@@ -29,7 +28,7 @@ function getProgressionDegrees() {
     return progressionDegrees;
 }
 
-export default function generateProgression(advanced) {
+export default function generateProgression(advanced, totalChords) {
     const root = getRandomElement(notes);
     const mode = getRandomElement(Object.keys(modes));
 
@@ -40,7 +39,7 @@ export default function generateProgression(advanced) {
     const scale = scaleGenerator.generateScale(root, mode);
     const compatibleScales = scaleGenerator.getCompatibleScales(mode, true);
 
-    const progressionDegrees = getProgressionDegrees();
+    const progressionDegrees = getProgressionDegrees(totalChords);
 
     const chords = progressionDegrees.map(degree => buildChord(scale, degree, getRandomElement(chordOptions[degree])));
     const romanNumerals = progressionDegrees.map(degree => chordOption.degreeToRoman(degree, mode));

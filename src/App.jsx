@@ -7,13 +7,14 @@ import './App.css';
 
 function App() {
   const [advanced, setAdvanced] = useState(true);
+  const [numChords, setNumChords] = useState(4);
   const [progression, setProgression] = useState(() => generateProgression(advanced));
   const [chords, setChords] = useState([]);
   const [currentPositions, setCurrentPositions] = useState({});
 
   useEffect(() => {
-    setProgression(generateProgression(advanced)); // Update progression when advanced changes
-  }, [advanced]);
+    setProgression(generateProgression(advanced, numChords));
+  }, [advanced, numChords]);
 
   useEffect(() => {
     function fetchChords() {
@@ -42,9 +43,19 @@ function App() {
         <button onClick={() => setAdvanced((prev) => !prev)}>
           Jazzy Chords (Currently: {advanced ? 'Enabled' : 'Disabled'})
         </button>
-        <button onClick={() => setProgression(generateProgression(advanced))}>
+        <button onClick={() => setProgression(generateProgression(advanced, numChords))}>
           Generate New Progression
         </button>
+        <label>
+          Number of Chords:
+          <select value={numChords} onChange={(e) => setNumChords(Number(e.target.value))}>
+            {[4, 5, 6, 7].map((num) => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
+        </label>
         <p>Key: {progression.key}</p>
         <span class="helper">Click on a chord to view alternate positions.</span>
         <div class="chord-row">
