@@ -33,20 +33,4 @@ export default class ChordOption {
     getChordOptions() {
         return this.chordOptions[this.mode];
     }
-
-    degreeToRoman(degree, mode) {
-        const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
-        const quality = this.chordOptions[mode][degree][0];
-
-        let numeral = romanNumerals[degree];
-        if (quality === 'major') {
-            return numeral;
-        } else if (quality === 'minor') {
-            return numeral.toLowerCase();
-        } else if (quality === 'dim' || quality === 'diminished') {
-            return numeral.toLowerCase() + '°';
-        } else {
-            return numeral;
-        }
-    }
 }

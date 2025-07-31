@@ -1,54 +1,22 @@
-import ChordOption from '../models/ChordOption';
-import ScaleGenerator from '../models/ScaleGenerator';
+import ChordProgression from '../models/ChordProgression';
+
 import { modes, notes } from './musicConstants';
-
-function getRandomElement(arr) {
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function buildChord(scale, degree, type) {
-    const note = scale[degree];
-    return `${note}${type}`;    
-}
-
-function getProgressionDegrees(totalChords) {
-    const progressionDegrees = [];
-    const usedDegrees = new Set();
-
-    const degrees = [0, 1, 2, 3, 4, 5, 6];
-    while (progressionDegrees.length < totalChords) {
-        let next;
-        do {
-            next = getRandomElement(degrees);
-        } while (progressionDegrees.length > 0 && next === progressionDegrees[progressionDegrees.length - 1] || usedDegrees.has(next));
-        progressionDegrees.push(next);
-        usedDegrees.add(next);
-    }
-
-    return progressionDegrees;
-}
+import { getRandomElement } from './helpers';
 
 export default function generateProgression(advanced, totalChords) {
     const root = getRandomElement(notes);
     const mode = getRandomElement(Object.keys(modes));
 
-    const chordOption = new ChordOption(mode, advanced);
-    const chordOptions = chordOption.getChordOptions();
+    const chordprogression = new ChordProgression(totalChords, mode, root, advanced).generateProgression();
 
-    const scaleGenerator = new ScaleGenerator(mode, root, advanced)
-    const scale = scaleGenerator.generateScale(root, mode);
-    const compatibleScales = scaleGenerator.getCompatibleScales(mode, true);
-
-    const progressionDegrees = getProgressionDegrees(totalChords);
-
-    const chords = progressionDegrees.map(degree => buildChord(scale, degree, getRandomElement(chordOptions[degree])));
-    const romanNumerals = progressionDegrees.map(degree => chordOption.degreeToRoman(degree, mode));
+    const chords = chordprogression.chords
+    const romanNumerals = chordprogression.romanNumerals;
 
     return {
         key: `${root} ${mode}`,
-        degrees: progressionDegrees.map(d => d + 1),
+        degrees: chordprogression.degrees,
         chords,
         romanNumerals,
-        compatibleScales: compatibleScales
+        compatibleScales: chordprogression.compatibleScales
     };
 }

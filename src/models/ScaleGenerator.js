@@ -36,9 +36,9 @@ export default class ScaleGenerator {
         return this.scaleOptions[this.mode];
     }
 
-    generateScale(root, mode) {
-        const intervals = modes[mode];
-        return intervals.map(semitones => notes[(notes.indexOf(root) + semitones) % 12]);
+    generateScale() {
+        const intervals = modes[this.mode];
+        return intervals.map(semitones => notes[(notes.indexOf(this.root) + semitones) % 12]);
     }
     
 }
