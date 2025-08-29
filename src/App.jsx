@@ -40,22 +40,24 @@ function App() {
 
   return (
     <>
-        <button onClick={() => setAdvanced((prev) => !prev)}>
-          Jazzy Chords (Currently: {advanced ? 'Enabled' : 'Disabled'})
-        </button>
-        <button onClick={() => setProgression(generateProgression(advanced, numChords))}>
-          Generate New Progression
-        </button>
-        <label>
-          Number of Chords:
-          <select value={numChords} onChange={(e) => setNumChords(Number(e.target.value))}>
-            {[4, 5, 6, 7].map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-        </label>
+        <div class = "options-row">
+          <button onClick={() => setAdvanced((prev) => !prev)}>
+            Jazzy Chords (Currently: {advanced ? 'Enabled' : 'Disabled'})
+          </button>
+          <button onClick={() => setProgression(generateProgression(advanced, numChords))}>
+            Generate New Progression
+          </button>
+          <label>
+            Number of Chords:
+            <select value={numChords} onChange={(e) => setNumChords(Number(e.target.value))}>
+              {[4, 5, 6, 7].map((num) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
         <p>Key: {progression.key}</p>
         <span class="helper">Click on a chord to view alternate positions.</span>
         <div class="chord-row">
