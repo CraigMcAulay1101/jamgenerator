@@ -72,3 +72,43 @@
   display: flex;
   flex-direction: row;
 }
+
+.options-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media screen and (max-width: 768px) {
+  .chord-row {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .options-row {
+    flex-direction: column;
+  }  
+
+  .chord=-row > * {
+    margin-bottom: 10px;
+  }
+  
+  .chord-row > * {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* For very small screens (phones in portrait) */
+@media screen and (max-width: 480px) {
+  .chord-row {
+    flex-direction: column;
+    padding: 10px;
+  }
+  
+  .chord-row > * {
+    font-size: 0.9em; /* Slightly smaller text on small screens */
+    margin-bottom: 8px;
+  }
+}
