@@ -1,4 +1,4 @@
-import React, { useState, useEffect, captureOwnerStack } from 'react';
+import React, { useState, useEffect } from 'react';
 import generateProgression from './utils/chordprogression';
 
 import MyChord from './Chord';
@@ -23,11 +23,34 @@ function App() {
         ...chord,
         degree: progression.romanNumerals[index]
       }));
-
       setChords(merged);
     }
     fetchChords();
   }, [progression]);
+
+  useEffect(() => {
+    if (chords.length > 0) {
+      const firstChordBaseFret = chords[0]?.positions?.[0]?.baseFret || 0; // Use base fret of the first chord.
+  
+      const defaultPositions = chords.reduce((acc, chord, index) => {
+        if (index === 0) {
+          acc[index] = 0;
+        } else {
+          // This could probably be better.
+          const closestPositionIndex = chord.positions.reduce((closestIndex, pos, idx) => {
+            const closestDiff = Math.abs(chord.positions[closestIndex].baseFret - firstChordBaseFret);
+            const currentDiff = Math.abs(pos.baseFret - firstChordBaseFret);
+            return currentDiff < closestDiff ? idx : closestIndex;
+          }, 0);
+  
+          acc[index] = closestPositionIndex;
+        }
+        return acc;
+      }, {});
+
+      setCurrentPositions(defaultPositions);
+    }
+  }, [chords]);
 
   const changePosition = (index) => {
     setCurrentPositions((prev) => ({
